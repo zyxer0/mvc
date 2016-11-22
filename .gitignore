@@ -1,0 +1,4 @@
+config/config.php
+web/files/features/*
+web/files/goods/*
+ftpsync.settings
