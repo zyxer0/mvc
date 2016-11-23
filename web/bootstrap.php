@@ -25,4 +25,5 @@ require_once 'lib/validation.php';
 */
 
 require_once 'core/route.php';
+Route::$settings = $settings;
 Route::start(); // запускаем маршрутизатор

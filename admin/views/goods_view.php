@@ -21,7 +21,7 @@
                     <div class="name"><a href="/administrator/goods/view?id=<?=$good->id?>"><?=$good->name?></a> </div>
                     <div class="icons_block">
                         <button name="remove_id" value="<?=$good->id?>" class="icon delete" type="submit" title="Удалить"></button>
-                        <a href="/<?=$good->url?>" target="_blank" class="icon show_on_site" title="Открыть на сайте"></a>
+                        <a href="/<?=$good->url . $settings->prefix ?>" target="_blank" class="icon show_on_site" title="Открыть на сайте"></a>
                     </div>
                     <div class="clear"></div>
                 </div>

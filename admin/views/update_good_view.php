@@ -12,7 +12,7 @@
         }
         ?>
         <?
-            print "<a href=\"/" . $good->url . "\" target=\"_blank\">Открыть на сайте</a>";
+            print "<a href=\"/" . $good->url . $settings->prefix . "\">Открыть на сайте</a>";
         ?>
     </div>
     <?}?>

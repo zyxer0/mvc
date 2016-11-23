@@ -214,7 +214,7 @@ class Model_Goods extends Model
             }
             
             if(empty($good->url) || !Validation::check_url($good->url)){
-                $good->url = $this->translit($good->name) . '_' . $id . '.html';
+                $good->url = $this->translit($good->name) . '_' . $id;
             }
             
             do {
@@ -228,12 +228,7 @@ class Model_Goods extends Model
                 $this->db->make_query($this->query);
                 
                 if($result = $this->db->result()) {
-                    if(preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z]{1,6}$/',$good->url)){
-                        $url = explode('.', $good->url);
-                        $good->url =  $url[0] . '_' . $id . '.' . $url[1];
-                    } else {
-                        $good->url .=  $id;
-                    }
+                    $good->url .=  $id;
                 }
             } while($result);
             
@@ -435,7 +430,7 @@ class Model_Goods extends Model
         if(!empty($good->url) && !Validation::check_url($good->url)){
             $good->url = $this->translit($good->url);
         } else if(empty($good->url) || !Validation::check_url($good->url)){
-            $good->url = $this->translit($good->name) . '_' . $id . '.html';
+            $good->url = $this->translit($good->name) . '_' . $id;
         }
         
         
@@ -451,12 +446,7 @@ class Model_Goods extends Model
             $this->db->make_query($this->query);
             
             if($result = $this->db->result()) {
-                if(preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z]{1,6}$/',$good->url)){
-                    $url = explode('.', $good->url);
-                    $good->url =  $url[0] . '_' . $id . '.' . $url[1];
-                } else {
-                    $good->url .=  $id;
-                }
+                $good->url .=  $id;
             }
         } while($result);
         

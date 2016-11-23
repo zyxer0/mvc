@@ -28,11 +28,11 @@
             
             <div id="user_informer">
                 <?if(!empty($user)){?>
-                    <a href="/user.html"><?=$user->name?></a>
+                    <a href="/user<?=$settings->prefix?>"><?=$user->name?></a>
                     /
-                    <a href="/logout.html">Выход</a>
+                    <a href="/logout<?=$settings->prefix?>">Выход</a>
                 <?} else {?>
-                    <a href="/user.html">Вход / Регистрация</a>
+                    <a href="/user<?=$settings->prefix?>">Вход / Регистрация</a>
                 <?}?>
             </div>
             

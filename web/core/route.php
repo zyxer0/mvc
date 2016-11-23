@@ -7,6 +7,7 @@
 */
 class Route
 {
+    public static $settings;
     private static $db;
     static function start()
     {
@@ -17,13 +18,18 @@ class Route
         $action_name = 'index';
         
         $alias = explode('?', $_SERVER['REQUEST_URI']);
-        
         $alias = trim(htmlspecialchars(strip_tags($alias[0])));
         
         if($alias != '' && $alias != '/'){
         
             mb_internal_encoding("UTF-8");
             $alias = mb_substr($alias, 1);
+            
+            if(!preg_match("/".self::$settings->prefix."$/i", $alias)) {
+                Route::ErrorPage404();
+            }
+            
+            $alias = preg_replace("/".self::$settings->prefix."$/i", "", $alias);
             $alias = mysqli_real_escape_string(self::$db->dbc, $alias);
             self::$db->make_query("SELECT `route` FROM `router` WHERE `alias` = '$alias' LIMIT 1");
             
@@ -59,14 +65,7 @@ class Route
         $controller_name = 'Controller_'.$controller_name;
         $action_name = 'action_'.$action_name;
 
-        
-        // echo "Model: $model_name <br>";
-        // echo "Controller: $controller_name <br>";
-        // echo "Action: $action_name <br>";
-        // die();
-
         // подцепляем файл с классом модели (файла модели может и не быть)
-
         $model_file = strtolower($model_name).'.php';
         $model_path = "web/models/".$model_file;
         if(file_exists($model_path))
@@ -108,8 +107,8 @@ class Route
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");
-        //echo 404;
-        header('Location:'.$host.'404.html');
+        header('Location:'.$host.'404'.self::$settings->prefix);
+        die();
     }
     
 }

@@ -264,7 +264,9 @@ input[name="main_image_id"]:checked + .main_image_label{
     padding: 2px;
     width: 260px;
 }
-
+.properties .text_input.small{
+    width: 130px;
+}
 label.select_image{
     display: block;
     width: 100%;
@@ -273,6 +275,7 @@ label.select_image{
 }
 label.select_image input{outline: 0;}
 
+.button,
 input[name="apply"]{
     padding: 5px 10px;
     outline: 0;
