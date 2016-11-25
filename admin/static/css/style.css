@@ -126,10 +126,29 @@ a:hover { color: #e84d07; }
 .tiny_products .icons_block .icon.delete{
     background: url(../images/delete.png) no-repeat 50%;
 }
+.tiny_products .icons_block .icon.apply{
+    background: url(../images/apply.png) no-repeat 50%;
+}
 .tiny_products .icons_block .icon.show_on_site{
     background: url(../images/show_on_site.png) no-repeat 50%;
 }
-
+.reviews .name{
+    height: 25px;
+    line-height: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    width: 650px;
+}
+.reviews .name_block{
+    float: left;
+    width: 650px;
+}
+.reviews .text{
+    margin-bottom: 5px;
+}
+.reviews .info{
+    color: #8e8e8e;
+}
 .footer{
     height: 80px;
     background: #f5f4f4;

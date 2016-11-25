@@ -90,8 +90,6 @@ class Model_Goods extends Model
                     WHERE
                     `alias`='" . $good->url . "' LIMIT 1
                 ";
-                
-            
             
             $this->db->make_query($this->query);
             return true;

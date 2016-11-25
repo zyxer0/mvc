@@ -50,9 +50,44 @@
             <div class="rating_off">
                 <div class="rating_on" style="width: <?=$good->raiting * 25?>px;"></div>
             </div>
-            <?/*?>
-            <a href="<?=$good->reviews[0]?>" class="reviews_counter"><?=$good->reviews[1]?> <?=plural($good->reviews[1], 'отзыв', 'отзывов', 'отзыва')?></a>
-            <?*/?>
+            <div class="clear"></div>
+            <div class="reviews">
+                <?if(!empty($reviews)) {?>
+                    <h2>Отзывы</h2>
+                    <?foreach($reviews as $review) {?>
+                        <div class="review">
+                            <div class="name">
+                                <?=$review->name?> 
+                                <span class="date"><?=date($settings->date_format, $review->time_stamp)?></span>
+                            </div>
+                            <div class="text"><?=$review->text?></div>
+                        </div>
+                    <?}?>
+                <?} else {?>
+                <p>Пока нет отзывов</p>
+                <?}?>
+                
+                <form class="review_form" method="POST">
+                    <h3>Добавить отзыв</h3>
+                    <input type="text" name="name" placeholder="Введите имя" value="<?if(!empty($user->name)) print $user->name?>" />
+                    <div class="review_rating">
+                        <input type="radio" name="rating" value="5" id="rating_5">
+                        <label for="rating_5"></label>
+                        <input type="radio" name="rating" value="4" id="rating_4">
+                        <label for="rating_4"></label>
+                        <input type="radio" name="rating" value="3" id="rating_3">
+                        <label for="rating_3"></label>
+                        <input type="radio" name="rating" value="2" id="rating_2">
+                        <label for="rating_2"></label>
+                        <input type="radio" name="rating" value="1" id="rating_1">
+                        <label for="rating_1"></label>
+                    </div>
+                    <textarea name="text" placeholder="Введите отзыв"></textarea>
+                    <button type="submit" class="button" name="add_review">Добавить отзыв</button>
+                    
+                </form>
+                
+            </div>
             <div class="clear"></div>
         </div>
         <?if($good->features){?>
@@ -64,6 +99,7 @@
         <?}?>
         <?if($good->description){?>
             <div class="description">
+                <h2>Описание товара</h2>
                 <?=$good->description?>
             </div>
         <?}?>

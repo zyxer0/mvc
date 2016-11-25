@@ -21,6 +21,12 @@ class Controller_Goods extends Controller
             return false;
         }
         
+        if(isset($_POST['add_review'])) {
+            $this->model->add_review($good->id);
+            $good = $this->model->get_good($good->id);
+        }
+        
+        $this->design_var->reviews = $this->model->get_reviews($good->id);
         $this->design_var->good = $good;
         $this->design_var->meta_title = $good->meta_title;
         $this->design_var->meta_description = $good->meta_description;

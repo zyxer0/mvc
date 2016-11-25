@@ -5,14 +5,16 @@ class Controller {
     public $model;
     public $view;
     public $design_var;
+    public $settings;
     
     function __construct()
     {
         global $settings;
+        $this->settings = $settings;
         $this->view = new View();
         $this->model = new Model();
         $this->design_var = new stdClass();
-        $this->design_var->settings = $settings;
+        $this->design_var->settings = $this->settings;
         $this->design_var->meta_title = '';
         $this->design_var->meta_description = '';
         $this->design_var->meta_keywords = '';

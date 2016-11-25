@@ -7,12 +7,12 @@
             ?>
             <h2>Всего менеджеров <?=count($managers)?></h2>
             <?
-            foreach ($managers as $manager) {
+            foreach ($managers as $m) {
                 ?>
                 <div class="product">
-                    <div class="name"><a href="/administrator/managers/view?id=<?=$manager->id?>"><?=$manager->username?></a> </div>
+                    <div class="name"><a href="/administrator/managers/view?id=<?=$m->id?>"><?=$m->username?></a> </div>
                     <div class="icons_block">
-                        <button name="remove_id" value="<?=$manager->id?>" class="icon delete" type="submit" title="Удалить"></button>
+                        <button name="remove_id" value="<?=$m->id?>" class="icon delete" type="submit" title="Удалить"></button>
                     </div>
                     <div class="clear"></div>
                 </div>

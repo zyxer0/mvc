@@ -171,7 +171,7 @@ class Model_Managers extends Model
         
         $this->query = "DELETE FROM
                     managers_permissions 
-                    WHERE `manager_id`='" . $id . "' LIMIT 1
+                    WHERE `manager_id`='" . $id . "' LIMIT 100
                 ";
         $this->db->make_query($this->query);
         

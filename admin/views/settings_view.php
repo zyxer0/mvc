@@ -35,6 +35,14 @@
                 </li>
             </ul>
             <hr />
+            
+            <h2>Настройки магазина</h2>
+            <ul class="properties">
+                <li>
+                    <label for="date_format">Формат даты</label><input value="<?=$settings->date_format?>" type="text" class="text_input small" name="settings[date_format]" id="prefix" />
+                </li>
+            </ul>
+            <hr />
         </div>
         <div class="clear"></div>
         

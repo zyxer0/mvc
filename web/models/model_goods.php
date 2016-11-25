@@ -169,6 +169,83 @@ class Model_Goods extends Model
         
         $this->db->make_query($this->query);
         return $this->db->result();
-        
     }
+    
+    public function get_reviews($good_id)
+    {
+        if(empty($good_id)) {
+            return false;
+        }
+        
+        $this->query = "SELECT *
+                FROM reviews
+                WHERE `good_id` = '".(int)$good_id."' AND `approved`=1
+                ORDER BY time_stamp ASC
+                LIMIT 100
+        ";
+        
+        $this->db->make_query($this->query);
+        return $this->db->results();
+    }
+    
+    public function add_review($good_id){
+        
+        $review = new stdClass;
+        
+        if(!$review->user_id = (int)$_SESSION['user_id']) {
+            $review->user_id = null;
+        }
+        $review->good_id = $good_id;
+        $review->time_stamp = time();
+        $review->text   = trim(htmlspecialchars(strip_tags($_POST['text'])));
+        $review->name   = trim(htmlspecialchars(strip_tags($_POST['name'])));
+        $review->rating = (int)trim(htmlspecialchars(strip_tags($_POST['rating'])));
+        
+        if(!Validation::check_empty($review->name) || !Validation::check_text($review->name)){
+            return false;
+        }
+        if(!Validation::check_empty($review->text) || !Validation::check_text($review->text)){
+            return false;
+        }
+        
+        $review->text   = mysqli_real_escape_string($this->db->dbc, $review->text);
+        $review->name   = mysqli_real_escape_string($this->db->dbc, $review->name);
+        $review->rating = mysqli_real_escape_string($this->db->dbc, $review->rating);
+        
+        $this->query = "INSERT INTO 
+                    reviews 
+                    (
+                        `good_id`,
+                        `user_id`,
+                        `time_stamp`,
+                        `text`,
+                        `name`,
+                        `rating`,
+                        `approved`
+                    )
+                    VALUES
+                    (
+                        '" . $review->good_id . "',
+                        '" . $review->user_id . "',
+                        '" . $review->time_stamp . "',
+                        '" . $review->text . "',
+                        '" . $review->name . "',
+                        '" . $review->rating . "',
+                        '0'
+                    )
+                ";
+        
+        $this->db->make_query($this->query);
+        $review_id = $this->db->insert_id();
+        
+        $this->query = "UPDATE
+                    goods 
+                    SET
+                    `raiting`=((`raiting`+".$review->rating.")/2)
+                ";
+        $this->db->make_query($this->query);
+        
+        return $review_id;
+    }
+    
 }

@@ -498,6 +498,58 @@ a:hover { color: #e84d07; }
     height: 25px;
     background: url(../images/rating.png) repeat-x 0 -25px;
 }
+.review_form{
+    padding: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+.review_form textarea{
+    width: 100%;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    resize: none;
+    height: 100px;
+    font-family: arial;
+}
+.reviews{
+    width: 500px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.reviews .review{
+    margin-bottom: 15px;
+}
+.reviews .name{
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+.reviews .date{
+    margin-left: 15px;
+    font-size: 13px;
+    color: #9c9c9c;
+}
+.review_rating{
+    width: 125px;
+}
+.review_rating input[type="radio"]{
+    display: none;
+}
+.review_rating label{
+    width: 25px;
+    height: 25px;
+    float: right;
+    background: url(../images/rating.png) repeat-x 0 0;
+    cursor: pointer;
+}
+.review_rating input[type="radio"]:checked + label,
+.review_rating input[type="radio"]:checked ~ label,
+.review_rating label:hover ~ label,
+.review_rating label:hover{
+    background-position: 0 -25px;
+}
 
 /* END Страница товара */
 

@@ -30,7 +30,7 @@ class Controller_User extends Controller
     function action_update()
     {
         $this->model->update_user();
-        header("location: /user.html");
+        header("location: /user".$this->settings->prefix);
         return true;
     }
     
