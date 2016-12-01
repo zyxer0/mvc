@@ -3,8 +3,8 @@
 class Controller_Main extends Controller
 {
 
-    public function __construct(){
-        parent::__construct();
+    public function __construct($db){
+        parent::__construct($db);
     }
 
     function action_index()

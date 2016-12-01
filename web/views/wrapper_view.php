@@ -8,6 +8,7 @@
     
     <script src="/web/static/js/jquery/jquery.js"  type="text/javascript"></script>
     <script src="/web/static/js/ajax_cart.js"  type="text/javascript"></script>
+    <script src="/web/static/js/scripts.js"  type="text/javascript"></script>
 </head>
 <body>
 
@@ -37,14 +38,61 @@
             </div>
             
             <div id="cart_informer">
-            
+                <?if(isset($cart->total_goods) && $cart->total_goods > 0){?>
+                    <a href="/cart<?=$settings->prefix?>">В корзине товаров <?=$cart->total_goods?></a>
+                <?} else {?>
+                    <span>Корзина пуста</span>
+                <?}?>
             </div>
             
         </div>
     </div>
 
     <div class="wrapper">
-        <?php include 'web/views/'.$content_view; ?>
+        <div class="sidebar">
+            <?
+            function categories_tree($categories, $category) {
+                if(!empty($categories)) {
+                    global $settings;
+                    ?>
+                    <ul>
+                        <?
+                        foreach($categories as $c) {
+                            if($c->visible) {
+                                ?>
+                                <li class="category_item <?(isset($category->id) && $category->id == $c->id ? print "selected" : "")?> <?isset($c->subcategories) ? print "parent" : ""?>">
+                                    <a href="<?=$c->url?><?=$settings->prefix?>"><?=$c->name?></a>
+                                    <?
+                                    if(isset($c->subcategories)) {
+                                        print "<i class=\"switch\"></i>";
+                                        categories_tree($c->subcategories, $category);
+                                    }
+                                    
+                                    ?>
+                                </li>
+                                <?
+                            }
+                        }
+                        ?>
+                    </ul>
+                    <?
+                }
+            }
+            ?>
+            <div class="catalog">
+                <?
+                if(!empty($categories)) {
+                    ?>
+                    <h2>Категории</h2>
+                    <?
+                    categories_tree($categories, $category);
+                }
+                ?>
+            </div>
+        </div>
+        <div class="content">
+            <? include 'web/views/'.$content_view; ?>
+        </div>
     </div>
         <div class="clear"></div>
         <div class="footer">

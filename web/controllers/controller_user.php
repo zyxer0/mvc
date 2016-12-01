@@ -3,10 +3,10 @@ class Controller_User extends Controller
 {
 
 
-    function __construct()
+    function __construct($db)
     {
-        parent::__construct();
-        $this->model = new Model_User();
+        parent::__construct($db);
+        $this->model = new Model_User($db);
     }
 
     function action_index()

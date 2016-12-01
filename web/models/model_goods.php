@@ -6,15 +6,25 @@ class Model_Goods extends Model
     protected $query;
     protected $goods;
     
-    public function __construct(){
-        parent::__construct();
+    public function __construct($db){
+        parent::__construct($db);
     }
     
-    public function get_goods()
+    public function get_goods($filter = [])
     {
+        $limit = 100;
+        $category_id_where = '';
+        
+        if(isset($filter['category_id'])) {
+            $categories_ids = implode(',', (array)$filter['category_id']);
+            $category_id_where = "AND `category_id` in ($categories_ids)";
+        }
+        
         $this->query = "SELECT *
                 FROM goods
-                LIMIT 100
+                WHERE 1
+                    $category_id_where
+                LIMIT $limit
         ";
         
         $this->db->make_query($this->query);
@@ -35,21 +45,10 @@ class Model_Goods extends Model
         
         $this->db->make_query($this->query);
         $good = $this->db->result();
-        
-        $good->features = $this->get_features(['good_id'=>$good->id]);
-        $good->colors = $this->get_good_colors(['good_id'=>$good->id]);
-        $good->images   = $this->get_images(['good_id'=>$good->id]);
-        
-        if(!empty($good->main_image_id)) {
-            $good->image = $this->get_image(['id'=>$good->main_image_id]);
-        } else {
-            $good->image = reset($good->images);
-        }
-        
         return $good;
     }
     
-    private function get_features($filter = []){
+    public function get_features($filter = []){
         $limit = 100;
         $filter_id_where = '';
         $filter_good_id_where = '';
@@ -78,8 +77,8 @@ class Model_Goods extends Model
         
     }
     
-    private function get_good_colors($filter = []){
-        $limit = 100;
+    public function get_good_colors($filter = []){
+        $limit = 1000;
         $filter_id_where = '';
         $filter_good_id_where = '';
         
@@ -88,7 +87,8 @@ class Model_Goods extends Model
         }
         
         if(isset($filter['good_id'])){
-            $filter_good_id_where = "AND `good_id` = ". mysqli_real_escape_string($this->db->dbc, $filter['good_id']);
+            $goods_ids = implode(',',  (array)$filter['good_id']);
+            $filter_good_id_where = "AND `good_id` in ($goods_ids)";
         }
         
         $this->query = "SELECT 
@@ -107,21 +107,23 @@ class Model_Goods extends Model
         return $this->db->results();
     }
     
-    private function get_images($filter = []){
+    public function get_images($filter = []){
         $limit = 100;
         $filter_id_where = '';
         $filter_good_id_where = '';
         
         if(isset($filter['id'])){
-            $filter_id_where = "AND `id` = ". mysqli_real_escape_string($this->db->dbc, $filter['id']);
+            $images_ids = implode(',', (array)$filter['id']);
+            $filter_id_where = "AND `id` in ($images_ids)";
         }
         
         if(isset($filter['good_id'])){
-            $filter_good_id_where = "AND `good_id` = ". mysqli_real_escape_string($this->db->dbc, $filter['good_id']);
+            $goods_ids = implode(',', (array)$filter['good_id']);
+            $filter_good_id_where = "AND `good_id` in ($goods_ids)";
         }
         
         $this->query = "SELECT 
-                    `id` ,
+                    `id`,
                     `filename_full`,
                     `filename_middle`,
                     `filename_small`,
@@ -140,8 +142,8 @@ class Model_Goods extends Model
         return $this->db->results();
         
     }
-    
-    private function get_image($id = []){
+    /* 
+    public function get_image($id = []){
         
         if(empty($id)){
             return false;
@@ -169,7 +171,7 @@ class Model_Goods extends Model
         
         $this->db->make_query($this->query);
         return $this->db->result();
-    }
+    } */
     
     public function get_reviews($good_id)
     {
@@ -248,4 +250,15 @@ class Model_Goods extends Model
         return $review_id;
     }
     
+    public function get_category($id){
+        $id = (int)$id;
+        if(!isset($this->all_categories)) {
+            $this->init_categories();
+        }
+        
+        if(array_key_exists(intval($id), $this->all_categories)) {
+            return $category = $this->all_categories[intval($id)];
+        }
+        return false;
+    }
 }

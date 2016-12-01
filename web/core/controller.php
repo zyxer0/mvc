@@ -7,17 +7,20 @@ class Controller {
     public $design_var;
     public $settings;
     
-    function __construct()
+    function __construct($db)
     {
         global $settings;
         $this->settings = $settings;
         $this->view = new View();
-        $this->model = new Model();
+        $this->model = new Model($db);
         $this->design_var = new stdClass();
         $this->design_var->settings = $this->settings;
+        $this->design_var->category = '';
         $this->design_var->meta_title = '';
         $this->design_var->meta_description = '';
         $this->design_var->meta_keywords = '';
+        $this->design_var->categories = $this->model->get_data('categories');
+        $this->design_var->cart = $this->model->get_data('cart');
         
         if(isset($_COOKIE['remember']) && !empty($_COOKIE['remember']) && !isset($_SESSION['user_id'])){
             $remember = unserialize($_COOKIE['remember']);
@@ -31,9 +34,6 @@ class Controller {
             $this->design_var->user = new stdClass();
             $this->design_var->user->name = $this->model->get_data('user_name', ['id'=>$_SESSION['user_id']]);
         }
-        
-        
-        
     }
     
     // действие (action), вызываемое по умолчанию

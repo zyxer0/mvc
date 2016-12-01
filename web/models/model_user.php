@@ -8,8 +8,8 @@ class Model_User extends Model
     protected $query;
     protected $valid;
 
-    public function __construct(){
-        parent::__construct();
+    public function __construct($db){
+        parent::__construct($db);
     }
 
     public function auth_user(){

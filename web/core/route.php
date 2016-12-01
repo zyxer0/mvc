@@ -87,7 +87,7 @@ class Route
         }
         
         // создаем контроллер
-        $controller = new $controller_name;
+        $controller = new $controller_name(self::$db);
         $action = $action_name;
         
         if(method_exists($controller, $action)) {

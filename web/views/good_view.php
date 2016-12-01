@@ -30,7 +30,7 @@
         
         <div class="clear"></div>
         
-        <form method="post" class="buy_form">
+        <form method="GET" action="cart_add<?=$settings->prefix?>" class="buy_form">
             <?if($good->old_price > 0){?>
             <div class="old_price"><i><span><?=$good->old_price?> грн</span></i></div>
             <?}?>
@@ -42,7 +42,7 @@
             <?}?>
             <div class="clear"></div>
         
-            <input type="hidden" name="product_id" value="<?=$good->id?>" />
+            <input type="hidden" name="good_id" value="<?=$good->id?>" />
             <button type="submit" class="button buy_button" name="buy" data-result_text="Куплено">Купить</button>
         </form>
         <div class="clear"></div>
@@ -50,6 +50,11 @@
             <div class="rating_off">
                 <div class="rating_on" style="width: <?=$good->raiting * 25?>px;"></div>
             </div>
+        </div>
+    </div>
+    
+    <div class="good_body">
+        <div class="rating_block">
             <div class="clear"></div>
             <div class="reviews">
                 <?if(!empty($reviews)) {?>
@@ -103,8 +108,5 @@
                 <?=$good->description?>
             </div>
         <?}?>
-        
-        
-        
     </div>
 </div>
