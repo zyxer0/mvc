@@ -177,7 +177,7 @@ a:hover { color: #e84d07; }
     margin-bottom: 20px;
 }
 input.name,
-.product_page input[name="name"]{
+.name_block input[name="name"]{
     width: 100%;
     height: 30px;
     outline: 0;
@@ -290,7 +290,7 @@ input[name="main_image_id"]:checked + .main_image_label{
 }
 .properties .text_input{
     padding: 2px;
-    width: 260px;
+    width: 255px;
 }
 .properties .text_input.small{
     width: 130px;
@@ -355,3 +355,50 @@ input[name="apply"]{
     margin-bottom: 15px;
     border: 1px dotted #ca3535;
 }
+.order_statuses{
+    margin: 10px 0;
+}
+.order_statuses a{
+    padding: 2px 5px;
+}
+.order_statuses .selected{
+    font-weight: bold;
+    color: #fff;
+    background: #0095eb;
+}
+.user_info .edit_block{
+    display: none;
+}
+.order_goods{
+    display: table;
+    width: 100%;
+}
+.order_goods .cell{
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px;
+}
+.head .cell{
+    border-bottom: 1px solid #ccc;
+}
+.order_goods li{
+    display: table-row;
+}
+.order_goods .image{
+    width: 60px;
+}
+.order_goods .image img{
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+

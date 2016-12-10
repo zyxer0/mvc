@@ -73,7 +73,7 @@ class Model_User extends Model
     
     public function get_user_info(){
         
-        $this->query = "SELECT `name`, `email`, `phone` FROM `users` WHERE `id`='" . $_SESSION['user_id'] . "' LIMIT 1";
+        $this->query = "SELECT * FROM `users` WHERE `id`='" . $_SESSION['user_id'] . "' LIMIT 1";
         $this->db->make_query($this->query);
         if($result = $this->db->result()){
             return $result;
@@ -85,10 +85,15 @@ class Model_User extends Model
     public function update_user(){
         
         if(isset($_POST['update']) && trim(htmlspecialchars(strip_tags($_POST['update'])))) {
-            $this->name = trim(htmlspecialchars(strip_tags($_POST['name'])));
-            $this->email = trim(htmlspecialchars(strip_tags($_POST['email'])));
-            $this->phone = trim(htmlspecialchars(strip_tags($_POST['phone'])));
-            $this->password = null;
+            $this->name         = trim(htmlspecialchars(strip_tags($_POST['name'])));
+            $this->email        = trim(htmlspecialchars(strip_tags($_POST['email'])));
+            $this->phone        = trim(htmlspecialchars(strip_tags($_POST['phone'])));
+            $this->last_name    = trim(htmlspecialchars(strip_tags($_POST['last_name'])));
+            $this->patronymic   = trim(htmlspecialchars(strip_tags($_POST['patronymic'])));
+            $this->country      = trim(htmlspecialchars(strip_tags($_POST['country'])));
+            $this->city         = trim(htmlspecialchars(strip_tags($_POST['city'])));
+            $this->address      = trim(htmlspecialchars(strip_tags($_POST['address'])));
+            $this->password     = null;
             
             
             $this->valid = Validation::validate_form(["text"=>$this->name, "email"=>$this->email]);
@@ -101,16 +106,21 @@ class Model_User extends Model
                 $this->password = trim(htmlspecialchars(strip_tags($_POST['password'])));
                 $this->password = password_hash($this->password, PASSWORD_DEFAULT);
                 $this->password = mysqli_real_escape_string($this->db->dbc, $this->password);
-                $this->valid = Validation::validate_form(['password'=>$this->password]);
+                $this->valid    = Validation::validate_form(['password'=>$this->password]);
             }
             
             if (!$this->valid) {
                 die();
             }
             
-            $this->name = mysqli_real_escape_string($this->db->dbc, $this->name);
-            $this->email = mysqli_real_escape_string($this->db->dbc, $this->email);
-            $this->phone = mysqli_real_escape_string($this->db->dbc, $this->phone);
+            $this->name         = mysqli_real_escape_string($this->db->dbc, $this->name);
+            $this->email        = mysqli_real_escape_string($this->db->dbc, $this->email);
+            $this->phone        = mysqli_real_escape_string($this->db->dbc, $this->phone);
+            $this->last_name    = mysqli_real_escape_string($this->db->dbc, $this->last_name);
+            $this->patronymic   = mysqli_real_escape_string($this->db->dbc, $this->patronymic);
+            $this->country      = mysqli_real_escape_string($this->db->dbc, $this->country);
+            $this->city         = mysqli_real_escape_string($this->db->dbc, $this->city);
+            $this->address      = mysqli_real_escape_string($this->db->dbc, $this->address);
             
             $password_update = '';
             
@@ -121,7 +131,12 @@ class Model_User extends Model
             $this->query = "UPDATE `users` SET 
                             `name`='$this->name',
                             `email`='$this->email',
-                            `phone`='$this->phone'
+                            `phone`='$this->phone',
+                            `last_name`='$this->last_name',
+                            `patronymic`='$this->patronymic',
+                            `country`='$this->country',
+                            `city`='$this->city',
+                            `address`='$this->address'
                             $password_update
                             WHERE `id`='" . $_SESSION['user_id'] . "' LIMIT 1";
             $this->db->make_query($this->query);
@@ -131,10 +146,15 @@ class Model_User extends Model
     public function reg_user(){
         
         if(isset($_POST['register']) && trim(htmlspecialchars(strip_tags($_POST['register'])))) {
-            $this->name = trim(htmlspecialchars(strip_tags($_POST['name'])));
-            $this->password = trim(htmlspecialchars(strip_tags($_POST['password'])));
-            $this->email = trim(htmlspecialchars(strip_tags($_POST['email'])));
-            $this->phone = trim(htmlspecialchars(strip_tags($_POST['phone'])));
+            $this->name         = trim(htmlspecialchars(strip_tags($_POST['name'])));
+            $this->password     = trim(htmlspecialchars(strip_tags($_POST['password'])));
+            $this->email        = trim(htmlspecialchars(strip_tags($_POST['email'])));
+            $this->phone        = trim(htmlspecialchars(strip_tags($_POST['phone'])));
+            $this->last_name    = trim(htmlspecialchars(strip_tags($_POST['last_name'])));
+            $this->patronymic   = trim(htmlspecialchars(strip_tags($_POST['patronymic'])));
+            $this->country      = trim(htmlspecialchars(strip_tags($_POST['country'])));
+            $this->city         = trim(htmlspecialchars(strip_tags($_POST['city'])));
+            $this->address      = trim(htmlspecialchars(strip_tags($_POST['address'])));
             
             $this->valid = Validation::validate_form(["text"=>$this->name, 'password'=>$this->password, "email"=>$this->email]);
             
@@ -144,15 +164,20 @@ class Model_User extends Model
             
             $this->password = password_hash($this->password, PASSWORD_DEFAULT);
             
-            $this->name = mysqli_real_escape_string($this->db->dbc, $this->name);
-            $this->password = mysqli_real_escape_string($this->db->dbc, $this->password);
-            $this->email = mysqli_real_escape_string($this->db->dbc, $this->email);
-            $this->phone = mysqli_real_escape_string($this->db->dbc, $this->phone);
+            $this->name         = mysqli_real_escape_string($this->db->dbc, $this->name);
+            $this->password     = mysqli_real_escape_string($this->db->dbc, $this->password);
+            $this->email        = mysqli_real_escape_string($this->db->dbc, $this->email);
+            $this->phone        = mysqli_real_escape_string($this->db->dbc, $this->phone);
+            $this->last_name    = mysqli_real_escape_string($this->db->dbc, $this->last_name);
+            $this->patronymic   = mysqli_real_escape_string($this->db->dbc, $this->patronymic);
+            $this->country      = mysqli_real_escape_string($this->db->dbc, $this->country);
+            $this->city         = mysqli_real_escape_string($this->db->dbc, $this->city);
+            $this->address      = mysqli_real_escape_string($this->db->dbc, $this->address);
             
             $this->query = "SELECT id FROM `users` WHERE `email`='$this->email' LIMIT 1";
             $this->db->make_query($this->query);
             if(!$this->db->result('id')){
-                $this->query = "INSERT INTO `users`(`name`, `password`, `email`, `phone`) VALUES ('$this->name', '$this->password', '$this->email', '$this->phone')";
+                $this->query = "INSERT INTO `users`(`name`, `password`, `email`, `phone`, `last_name`, `patronymic`, `country`, `city`, `address`) VALUES ('$this->name', '$this->password', '$this->email', '$this->phone', '$this->last_name', '$this->patronymic', '$this->country', '$this->city', '$this->address')";
                 if($this->db->make_query($this->query)){
                     
                     $user_id = $this->db->insert_id();

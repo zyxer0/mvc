@@ -21,7 +21,7 @@
                 <?
                 if(isset($main_menu)){
                 foreach($main_menu as $url=>$menu_name){?>
-                    <li><a href="<?=$url?>" class="item"><?=$menu_name?></a></li>
+                    <li><a href="/<?=$url?>" class="item"><?=$menu_name?></a></li>
                 <?}
                 }?>
                 <li class="clear"></li>
@@ -61,7 +61,7 @@
                             if($c->visible) {
                                 ?>
                                 <li class="category_item <?(isset($category->id) && $category->id == $c->id ? print "selected" : "")?> <?isset($c->subcategories) ? print "parent" : ""?>">
-                                    <a href="<?=$c->url?><?=$settings->prefix?>"><?=$c->name?></a>
+                                    <a href="/<?=$c->url?><?=$settings->prefix?>"><?=$c->name?></a>
                                     <?
                                     if(isset($c->subcategories)) {
                                         print "<i class=\"switch\"></i>";

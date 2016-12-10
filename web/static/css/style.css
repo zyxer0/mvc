@@ -723,12 +723,23 @@ form input[type="password"]{
     margin: 10px auto;
     display: block;
     cursor: pointer;
+    text-decoration: none;
 }
-
-
-
-
-
+.button.checkout_button{
+    width: 110px;
+    text-align: center;
+}
+.order_details{
+    width: 400px;
+    background: #f3f3f3;
+    border: 1px solid #ccc;
+}
+.order_details .label{
+    background: #e0e0e0;
+}
+.order_details td{
+    padding: 5px;
+}
 
 
 

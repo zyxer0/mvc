@@ -39,7 +39,13 @@
             <h2>Настройки магазина</h2>
             <ul class="properties">
                 <li>
-                    <label for="date_format">Формат даты</label><input value="<?=$settings->date_format?>" type="text" class="text_input small" name="settings[date_format]" id="prefix" />
+                    <label for="date_format">Формат даты</label><input value="<?=$settings->date_format?>" type="text" class="text_input small" name="settings[date_format]" id="date_format" />
+                </li>
+                <li>
+                    <label for="unit">Единицы измерения</label><input value="<?=$settings->unit?>" type="text" class="text_input small" name="settings[unit]" id="unit" />
+                </li>
+                <li>
+                    <label for="currency">Валюта</label><input value="<?=$settings->currency?>" type="text" class="text_input small" name="settings[currency]" id="currency" />
                 </li>
             </ul>
             <hr />

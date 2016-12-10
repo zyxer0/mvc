@@ -69,4 +69,39 @@ class Model
                 break; */
         }
     }
+    
+    public function get_images($filter = []){
+        $limit = 100;
+        $filter_id_where = '';
+        $filter_good_id_where = '';
+        
+        if(isset($filter['id'])){
+            $images_ids = implode(',', (array)$filter['id']);
+            $filter_id_where = "AND `id` in ($images_ids)";
+        }
+        
+        if(isset($filter['good_id'])){
+            $goods_ids = implode(',', (array)$filter['good_id']);
+            $filter_good_id_where = "AND `good_id` in ($goods_ids)";
+        }
+        
+        $this->query = "SELECT 
+                    `id`,
+                    `filename_full`,
+                    `filename_middle`,
+                    `filename_small`,
+                    `good_id`,
+                    `alt`,
+                    `title`
+                FROM goods_images
+                WHERE 1 
+                    $filter_id_where
+                    $filter_good_id_where
+                ORDER BY id ASC
+                LIMIT $limit
+        ";
+        
+        $this->db->make_query($this->query);
+        return $this->db->results();
+    }
 }
