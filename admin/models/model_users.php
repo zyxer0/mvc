@@ -3,8 +3,6 @@
 class Model_Users extends Model
 {
     
-    protected $query;
-    
     public function __construct(){
         parent::__construct();
     }

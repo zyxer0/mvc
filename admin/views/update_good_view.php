@@ -39,6 +39,37 @@
             <h2>Информация о товаре</h2>
             <ul class="properties">
                 <li>
+                    <label>Категория товара</label>
+                    <select name="category_id" class="text_input">
+                        <?
+                            function set_space($level) {
+                                $space = '';
+                                for($i=1; $i<=$level; $i++) {
+                                    $space .= "&nbsp;&nbsp;";
+                                }
+                                return $space;
+                            }
+                            
+                            function categories_tree($categories, $level, $good_category_id){
+                                if($categories) {
+                                    foreach($categories as $c) {
+                                        print "<option value='{$c->id}' ".($c->id == $good_category_id ? "selected" : "").">".set_space($level)."{$c->name}</option>";
+                                    
+                                        if(isset($c->subcategories) && count($c->subcategories) > 0) {
+                                            categories_tree($c->subcategories, ++$level, $good_category_id);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if($categories) {
+                                categories_tree($categories, 1, $good->category_id);
+                            }
+                            
+                        ?>
+                    </select>
+                </li>
+                <li>
                     <label for="visible">Активен</label><input value="1" type="checkbox" class="checkbox_input" name="visible" id="visible" <?!empty($good->visible) ? print 'checked' : ''?> />
                 </li>
                 <li>

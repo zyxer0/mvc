@@ -1,9 +1,6 @@
 <?php
 
-class Model_Goods extends Model
-{
-    
-    protected $query;
+class Model_Goods extends Model {
     
     public function __construct(){
         parent::__construct();
@@ -138,6 +135,7 @@ class Model_Goods extends Model
         $good->meta_title       = trim(htmlspecialchars(strip_tags($_POST['meta_title'])));
         $good->meta_description = trim(htmlspecialchars(strip_tags($_POST['meta_description'])));
         $good->meta_keywords    = trim(htmlspecialchars(strip_tags($_POST['meta_keywords'])));
+        $good->category_id      = (int)trim(htmlspecialchars(strip_tags($_POST['category_id'])));
         
         if(!Validation::check_empty($good->name) || !Validation::check_text($good->name)){
             return false;
@@ -176,6 +174,7 @@ class Model_Goods extends Model
                     `sticker_class`='" . $good->sticker_class . "',
                     `sticker_text`='" . $good->sticker_text . "',
                     `raiting`='" . $good->raiting . "',
+                    `category_id`='" . $good->category_id . "',
                     `meta_title`='" . $good->meta_title . "',
                     `meta_description`='" . $good->meta_description . "',
                     `meta_keywords`='" . $good->meta_keywords . "'
@@ -312,6 +311,7 @@ class Model_Goods extends Model
         $good->sticker_class    = trim(htmlspecialchars(strip_tags($_POST['sticker_class'])));
         $good->sticker_text     = trim(htmlspecialchars(strip_tags($_POST['sticker_text'])));
         $good->raiting          = trim(htmlspecialchars(strip_tags($_POST['raiting'])));
+        $good->category_id      = (int)trim(htmlspecialchars(strip_tags($_POST['category_id'])));
         $good->meta_title       = trim(htmlspecialchars(strip_tags($_POST['meta_title'])));
         $good->meta_description = trim(htmlspecialchars(strip_tags($_POST['meta_description'])));
         $good->meta_keywords    = trim(htmlspecialchars(strip_tags($_POST['meta_keywords'])));
@@ -464,6 +464,7 @@ class Model_Goods extends Model
                     `sticker_class`='" . $good->sticker_class . "',
                     `sticker_text`='" . $good->sticker_text . "',
                     `raiting`='" . $good->raiting . "',
+                    `category_id`='" . $good->category_id . "',
                     `meta_title`='" . $good->meta_title . "',
                     `meta_description`='" . $good->meta_description . "',
                     `main_image_id`='" . $good->main_image_id . "',

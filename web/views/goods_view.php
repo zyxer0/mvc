@@ -48,6 +48,11 @@
             </div>
             <?
         }
+        ?>
+        <div class="clear"></div>
+        <br/>
+        <?=$category->description?>
+        <?
     } else {?>
         Товары не найдены
     <?}?>

@@ -10,22 +10,6 @@ class Model_Order extends Model
         parent::__construct($db);
     }
     
-    public function get_good($id){
-        if(!$id){
-            return false;
-        }
-        $id = mysqli_real_escape_string($this->db->dbc, $id);
-        $this->query = "SELECT *
-                FROM goods
-                WHERE id = ". $id ."
-                LIMIT 1
-        ";
-        
-        $this->db->make_query($this->query);
-        $good = $this->db->result();
-        return $good;
-    }
-    
     public function add_purchase() {
         if(!empty($this->purchase)) {
             $this->query = "INSERT INTO 
@@ -41,9 +25,11 @@ class Model_Order extends Model
         }
     }
     
-    public function get_order() {
+    public function get_order($id = null) {
         
-        $id = trim(strip_tags(htmlspecialchars($_GET['id'])));
+        if(empty($id)) {
+            $id = trim(strip_tags(htmlspecialchars($_GET['id'])));
+        }
         
         if(!empty($id)) {
             
@@ -83,8 +69,10 @@ class Model_Order extends Model
                 $goods[$image->good_id]->images[] = $image;
             }
             
-            foreach($this->get_images(['id'=>$main_images_ids]) as $image) {
-                $main_images[$image->id] = $image;
+            if(!empty($main_images_ids)) {
+                foreach($this->get_images(['id'=>$main_images_ids]) as $image) {
+                    $main_images[$image->id] = $image;
+                }
             }
             
             foreach($goods as $good) {
@@ -105,7 +93,7 @@ class Model_Order extends Model
             foreach($order->purchases as $purchase){
                 $order->total_price += $purchase->price * $purchase->amount;
             }
-            //print_r($order);
+            
             return $order;
         } else {
             return false;
@@ -121,10 +109,15 @@ class Model_Order extends Model
         $city       = trim(htmlspecialchars(strip_tags($_POST['city'])));
         $country    = trim(htmlspecialchars(strip_tags($_POST['country'])));
         $phone      = trim(htmlspecialchars(strip_tags($_POST['phone'])));
+        $comment    = trim(htmlspecialchars(strip_tags($_POST['comment'])));
+        $newposht_address = trim(htmlspecialchars(strip_tags($_POST['newposht_address'])));
+        $delivery_type = trim(htmlspecialchars(strip_tags($_POST['delivery_type'])));
         
         if (!Validation::validate_form(["text"=>$name, "email"=>$email])) {
             die();
         }
+        
+        setcookie('cart', '', time()-60*60*24*30, '/');
         
         do {
             $url = md5(time().'jdaslkjf847345HJKJHsdfhhshj'.rand(0, 999999));
@@ -140,6 +133,9 @@ class Model_Order extends Model
         $order->city       = $city;
         $order->country    = $country;
         $order->phone      = $phone;
+        $order->comment    = $comment;
+        $order->newposht_address    = $newposht_address;
+        $order->delivery_type    = $delivery_type;
         $order->url        = $url;
         
         $order->email      = mysqli_real_escape_string($this->db->dbc, $order->email);
@@ -149,6 +145,9 @@ class Model_Order extends Model
         $order->city       = mysqli_real_escape_string($this->db->dbc, $order->city);
         $order->country    = mysqli_real_escape_string($this->db->dbc, $order->country);
         $order->phone      = mysqli_real_escape_string($this->db->dbc, $order->phone);
+        $order->comment    = mysqli_real_escape_string($this->db->dbc, $order->comment);
+        $order->newposht_address    = mysqli_real_escape_string($this->db->dbc, $order->newposht_address);
+        $order->delivery_type    = mysqli_real_escape_string($this->db->dbc, $order->delivery_type);
         $order->url        = mysqli_real_escape_string($this->db->dbc, $order->url);
         
         if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
@@ -166,6 +165,9 @@ class Model_Order extends Model
                             `city`='".$order->city."',
                             `country`='".$order->country."',
                             `phone`='".$order->phone."',
+                            `comment`='".$order->comment."',
+                            `newposht_address`='".$order->newposht_address."',
+                            `delivery_type`='".$order->delivery_type."',
                             `url`='".$order->url."'
                             ";
         $this->db->make_query($this->query);

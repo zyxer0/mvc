@@ -153,6 +153,8 @@ class Model
         $filter_id_where = '';
         $filter_good_id_where = '';
         
+        $images = [];
+        
         if(isset($filter['id'])){
             $images_ids = implode(',', (array)$filter['id']);
             $filter_id_where = "AND `id` in ($images_ids)";
@@ -180,6 +182,7 @@ class Model
         ";
         
         $this->db->make_query($this->query);
-        return $this->db->results();
+        $images = $this->db->results();
+        return $images;
     }
 }

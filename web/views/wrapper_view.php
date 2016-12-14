@@ -9,6 +9,10 @@
     <script src="/web/static/js/jquery/jquery.js"  type="text/javascript"></script>
     <script src="/web/static/js/ajax_cart.js"  type="text/javascript"></script>
     <script src="/web/static/js/scripts.js"  type="text/javascript"></script>
+    
+    <script src="/web/static/js/slick/slick.js"  type="text/javascript"></script>
+    <link href="/web/static/js/slick/slick.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="/web/static/js/slick/slick-theme.css" rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
 
@@ -49,6 +53,20 @@
     </div>
 
     <div class="wrapper">
+        <?if($_SERVER['REQUEST_URI'] == '/') {?>
+        <div id="slider">
+            <a href="/chehly<?=$settings->prefix?>" class="slide">
+                <img src="/web/static/images/slide_1.jpg" />
+            </a>
+            <a href="/naushniki<?=$settings->prefix?>" class="slide">
+                <img src="/web/static/images/slide_2.jpg" />
+            </a>
+            <a href="/akkumulyatory<?=$settings->prefix?>" class="slide">
+                <img src="/web/static/images/slide_3.jpg" />
+            </a>
+        </div>
+        <div class="clear"></div>
+        <?}?>
         <div class="sidebar">
             <?
             function categories_tree($categories, $category) {
@@ -100,6 +118,24 @@
                 <span class="copyright">Все права защищены zyxer.404.dp.ua © 2016 Все материалы на этом сайте присутствуют исключительно в учебных целях <span style="font-size: 25px;">&#9786;</span></span>
             </div>
         </div>
-    
+<!-- Start SiteHeart code -->
+<script>
+(function(){
+var widget_id = 861251;
+_shcp =[{widget_id : widget_id}];
+var lang =(navigator.language || navigator.systemLanguage 
+|| navigator.userLanguage ||"en")
+.substr(0,2).toLowerCase();
+var url ="widget.siteheart.com/widget/sh/"+ widget_id +"/"+ lang +"/widget.js";
+var hcc = document.createElement("script");
+hcc.type ="text/javascript";
+hcc.async =true;
+hcc.src =("https:"== document.location.protocol ?"https":"http")
++"://"+ url;
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hcc, s.nextSibling);
+})();
+</script>
+<!-- End SiteHeart code -->
 </body>
 </html>

@@ -21,6 +21,7 @@ class Controller_Goods extends Controller
     function action_view() {
         $id = trim(htmlspecialchars(strip_tags($_GET['id'])));
         $this->design_var->good = $this->model->get_good($id);
+        $this->design_var->categories = $this->model->get_categories();
         $this->view->generate('update_good_view.php', 'wrapper_view.php', $this->design_var);
     }
     
@@ -46,7 +47,7 @@ class Controller_Goods extends Controller
     
     function action_add() {
         
-        
+        $this->design_var->categories = $this->model->get_categories();
         if(isset($_POST['apply'])){
             if($id = $this->model->add()){
                 $_SESSION['good_status']['success'] = 'added';

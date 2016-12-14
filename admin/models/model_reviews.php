@@ -3,8 +3,6 @@
 class Model_Reviews extends Model
 {
     
-    protected $query;
-    
     public function __construct(){
         parent::__construct();
     }

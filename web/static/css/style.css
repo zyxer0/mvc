@@ -680,6 +680,8 @@ a:hover { color: #e84d07; }
     border-radius: 3px;
     margin-bottom: 15px;
     outline: 0;
+    background: #fff;
+    height: 33px;
 }
 .contacts_form .form_textarea{
     width: 100%;
@@ -740,10 +742,66 @@ form input[type="password"]{
 .order_details td{
     padding: 5px;
 }
-
-
-
-
-
-
+.user_orders,
+.user_orders ul,
+.user_orders li{
+    list-style: none;
+}
+.user_orders.head{
+    border-top: 1px solid #ccc;
+}
+.user_orders{
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.user_orders>li{
+    display: table-cell;
+    padding: 3px;
+    box-sizing: border-box;
+}
+.user_orders .order_id{
+    width: 90px;
+}
+.user_orders .status{
+    width: 130px;
+}
+.user_orders .order_id,
+.user_orders .status,
+.user_orders .comment{
+    border-right: 1px solid #ccc;
+}
+.user_orders .comment{
+    width: 200px;
+}
+.user_orders .order_goods{
+    display: table;
+    width: 100%;
+}
+.user_orders .order_goods .cell{
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px;
+}
+.user_orders .head .cell{
+    border-bottom: 1px solid #ccc;
+}
+.user_orders .order_goods li{
+    display: table-row;
+}
+.user_orders .order_goods .image{
+    width: 60px;
+}
+.user_orders .order_goods .image img{
+    width: 100%;
+    height: auto;
+}
+.chosen-container{
+    width: 255px !important;
+}
+#slider{
+    margin-bottom: 20px;
+}
 

@@ -15,4 +15,74 @@
     <input type="submit" name="update" value="Обновить" class="button" />
 </form>
 
+<?if(!empty($orders)) {?>
+    <h2>Заказы</h2>
+    
+    <ul class="user_orders head">
+        <li class="order_id">Номер заказа</li>
+        <li class="status">Статус</li>
+        <li class="comment">Доставка</li>
+        <li class="purchases">Товары</li>
+    </ul>
+    
+    <?foreach($orders as $order) {?>
+        <ul class="user_orders">
+            <li class="order_id">
+                <a href="/order/<?=$order->url?><?=$settings->prefix?>">Заказ №<?=$order->id?></a>
+            </li>
+            <li class="status">
+                <?=$order->status?>, <?=($order->paid) ? 'оплачен' : 'не оплачен'?>
+            </li>
+            <li class="comment">
+                <?if($order->delivery_type == 1) {?>
+                    <div>Курьерская доставка</div>
+                    <div>Страна: <?=$order->country?></div>
+                    <div>Город: <?=$order->city?></div>
+                    <div>Адрес: <?=$order->address?></div>
+                <?}?>
+                <?if($order->delivery_type == 2) {?>
+                    <div>Доставка Новой почтой</div>
+                    <div>Адрес отделения: <?=$order->newposht_address?></div>
+                <?}?>
+            </li>
+            <li class="purchases">
+                <ul class="order_goods">
+                    <li class="head">
+                        <div class="cell image"></div>
+                        <div class="cell name">Товар</div>
+                        <div class="cell price">Цена</div>
+                        <div class="cell amount">Кол-во</div>
+                        <div class="cell total">Итого</div>
+                    </li>
+                    <?foreach($order->purchases as $purchase) {?>
+                    <li>
+                        <div class="cell image">
+                            <?if(isset($purchase->good->image)) {?>
+                            <img src="/<?=$settings->goods_images_dir?><?=$purchase->good->image->filename_small?>" alt="<?=(isset($purchase->good->image->alt) ? $purchase->good->image->alt : '')?>" title="<?=(isset($good->image->title) ? $good->image->title : '')?>">
+                            <?}?>
+                        </div>
+                        <div class="cell name">
+                            <?if(isset($purchase->good->id)) {?>
+                                <a href="/administrator/goods/view?id=<?=$purchase->good->id?>"><?=$purchase->good->name?></a>
+                            <?} else {?>
+                                <?=$purchase->name?> (Товар был удален)
+                            <?}?>
+                        </div>
+                        <div class="cell price">
+                            <?=$purchase->price?> <?=$settings->currency?>
+                        </div>
+                        <div class="cell amount">
+                            <?=$purchase->amount?> <?=$settings->unit?>
+                        </div>
+                        <div class="cell total">
+                            <?=$purchase->price*$purchase->amount?> <?=$settings->currency?>
+                        </div>
+                    </li>
+                    <?}?>
+                </ul>
+            </li>
+        </ul>
+    <?}?>
+<?}?>
+
 <a href="/user-delete<?=$settings->prefix?>">Удалить мой аккаунт</a>

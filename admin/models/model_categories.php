@@ -1,88 +1,9 @@
 <?php
 
-class Model_Categories extends Model
-{
-    
-    protected $query;
-    protected $all_categories;
-    protected $categories_tree;
+class Model_Categories extends Model {
     
     public function __construct(){
         parent::__construct();
-    }
-    
-    public function get_categories() {
-        if(!isset($this->categories_tree)) {
-            $this->init_categories();
-        }
-        return $this->categories_tree;
-    }
-    
-    public function count_categories() {
-        return count($this->all_categories);
-    }
-    
-    private function init_categories() {
-        // Дерево категорий
-        $tree = new stdClass();
-        $tree->subcategories = array();
-        
-        // Указатели на узлы дерева
-        $pointers = array();
-        $pointers[0] = &$tree;
-        $pointers[0]->path = array();
-        $pointers[0]->level = 0;
-        
-        $this->query = "SELECT *
-                FROM categories
-                LIMIT 100
-        ";
-        
-        $this->db->make_query($this->query);
-        $categories = $this->db->results();
-        
-        //$this->all_categories = $categories;
-        
-        $finish = false;
-        // Не кончаем, пока не кончатся категории, или пока ниодну из оставшихся некуда приткнуть
-        while(!empty($categories)  && !$finish) {
-            $flag = false;
-            // Проходим все выбранные категории
-            foreach($categories as $k=>$category) {
-                if(isset($pointers[$category->parent_id])) {
-                    // В дерево категорий (через указатель) добавляем текущую категорию
-                    $pointers[$category->id] = $pointers[$category->parent_id]->subcategories[] = $category;
-                    
-                    // Путь к текущей категории
-                    $curr = $pointers[$category->id];
-                    $pointers[$category->id]->path = array_merge((array)$pointers[$category->parent_id]->path, array($curr));
-                    
-                    // Убираем использованную категорию из массива категорий
-                    unset($categories[$k]);
-                    $flag = true;
-                }
-            }
-            if(!$flag) $finish = true;
-        }
-        
-        // Для каждой категории id всех ее деток узнаем
-        $ids = array_reverse(array_keys($pointers));
-        foreach($ids as $id) {
-            if($id>0) {
-                $pointers[$id]->children[] = $id;
-                
-                if(isset($pointers[$pointers[$id]->parent_id]->children)) {
-                    $pointers[$pointers[$id]->parent_id]->children = array_merge($pointers[$id]->children, $pointers[$pointers[$id]->parent_id]->children);
-                } else {
-                    $pointers[$pointers[$id]->parent_id]->children = $pointers[$id]->children;
-                }
-            }
-        }
-        unset($pointers[0]);
-        unset($ids);
-        
-        $this->categories_tree = $tree->subcategories;
-        $this->all_categories = $pointers;
     }
     
     public function remove($ids) {
@@ -114,17 +35,6 @@ class Model_Categories extends Model
         unset($this->categories_tree);
         unset($this->all_categories);
         return $id;
-    }
-    
-    public function get_category($id){
-        if(!isset($this->all_categories)) {
-            $this->init_categories();
-        }
-        
-        if(is_int($id) && array_key_exists(intval($id), $this->all_categories)) {
-            return $category = $this->all_categories[intval($id)];
-        }
-        return false;
     }
     
     public function add(){

@@ -205,6 +205,92 @@ class Model_User extends Model
         return false;
         
     }
-
+    
+    public function get_orders() {
+        
+        $id = (int)$_SESSION['user_id'];
+        
+        if(!empty($id)) {
+            
+            $orders = [];
+            $query = "SELECT o.*, os.`status_name` as `status` FROM `orders` AS o LEFT JOIN `order_statuses` AS os ON o.`status_id`=os.`id` WHERE o.`user_id`='$id'";
+            
+            $this->db->make_query($query);
+            foreach($this->db->results() as $order) {
+                $orders[$order->id] = $order;
+            }
+            
+            if(!empty($orders)) {
+                $orders_ids = implode(',', array_keys($orders));
+                
+                $query = "SELECT * FROM `order_purchases` WHERE `order_id` in ($orders_ids)";
+                $this->db->make_query($query);
+                
+                $orders_purchases = [];
+                $purchases = [];
+                foreach($this->db->results() as $purchase) {
+                    $orders_purchases[$purchase->order_id][$purchase->good_id] = $purchase;
+                    $purchases[$purchase->good_id] = $purchase;
+                }
+                
+                foreach($orders as $order) {
+                    if(isset($orders_purchases[$order->id])) {
+                        $order->purchases = $orders_purchases[$order->id];
+                    }
+                }
+                
+                $purchases_ids = implode(',', (array)array_keys($purchases));
+                $query = "SELECT * FROM `goods` WHERE `id` in ($purchases_ids)";
+                $this->db->make_query($query);
+                
+                $goods = [];
+                $main_images_ids = [];
+                foreach($this->db->results() as $good) {
+                    $goods[$good->id] = $good;
+                    if($good->main_image_id) {
+                        $main_images_ids[] = $good->main_image_id;
+                    }
+                }
+                
+                $images = $this->get_images(['good_id'=>array_keys($goods)]);
+                foreach($images as $image) {
+                    $goods[$image->good_id]->images[] = $image;
+                }
+                
+                foreach($this->get_images(['id'=>$main_images_ids]) as $image) {
+                    $main_images[$image->id] = $image;
+                }
+                
+                foreach($goods as $good) {
+                    if(!empty($good->main_image_id)) {
+                        $good->image = $main_images[$good->main_image_id];
+                    } else {
+                        $good->image = reset($good->images);
+                    }
+                }
+                
+                foreach($orders as $id=>$order) {
+                    if(empty($order->purchases)) {
+                        unset($orders[$id]);
+                    } else {
+                        $order->total_price = 0;
+                        foreach($order->purchases as $purchase){
+                            if(isset($goods[$purchase->good_id])) {
+                                $purchase->good = $goods[$purchase->good_id];
+                            } else {
+                                $purchase->good = new stdCLass;
+                            }
+                            
+                            $order->total_price += $purchase->price * $purchase->amount;
+                        }
+                    }
+                }
+            }
+            return $orders;
+        } else {
+            return false;
+        }
+    }
+    
 }
 ?>

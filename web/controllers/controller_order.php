@@ -1,7 +1,6 @@
 <?php
 
-class Controller_Order extends Controller
-{
+class Controller_Order extends Controller {
     function __construct($db) {
         parent::__construct($db);
         $this->model = new Model_Order($db);

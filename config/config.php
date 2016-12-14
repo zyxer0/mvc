@@ -3,5 +3,6 @@
     const DB_HOST   = "localhost";
     const DB_USER   = "imt_cms";
     const DB_PASSWD = "KWED7xCTwWAK4GQq";
+    const ROOT_URL  = "http://cms";
 
 ?>

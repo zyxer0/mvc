@@ -19,7 +19,7 @@ $('form.buy_form').live('submit', function(e) {
             }
             
             if(data.total_goods > 0) {
-                $('#cart_informer').html('<a href="/cart.html_prefix">В корзине товаров '+data.total_goods+'</a>');
+                $('#cart_informer').html('<a href="/cart.html">В корзине товаров '+data.total_goods+'</a>');
             } else {
                 $('#cart_informer').html('<span>Корзина пуста</span>');
             }

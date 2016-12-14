@@ -1,4 +1,5 @@
 <?php
+    error_reporting(1);
     date_default_timezone_set('Europe/Kiev');
     ini_set('display_errors', 1);
     if (explode('/', $_SERVER['REQUEST_URI'])[1] === "administrator") {

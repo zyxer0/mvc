@@ -2,7 +2,7 @@
     <h1>Заказ №<?echo $order->id?>
     на сумму <?=$order->total_price?> <?=$settings->currency?>
     </h1>
-    <p>Статус заказа: <?=$order->status?></p>
+    <p>Статус заказа: <?=$order->status?>, <?=($order->paid) ? 'оплачен' : 'не оплачен'?></p>
     <table class="cart_purchases">
         <tr>
             <th class="image"></th>
@@ -80,22 +80,52 @@
                 <?=$order->phone?>
             </td>
         </tr>
-        <tr>
-            <td class="label">
-                Страна
-            </td>
-            <td>
-                <?=$order->country?>
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Город
-            </td>
-            <td>
-                <?=$order->city?>
-            </td>
-        </tr>
+        <?if($order->delivery_type == 1) {?>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    Курьерская доставка
+                </td>
+            </tr>
+            <tr>
+                <td class="label">
+                    Страна
+                </td>
+                <td>
+                    <?=$order->country?>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">
+                    Город
+                </td>
+                <td>
+                    <?=$order->city?>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">
+                    Адрес
+                </td>
+                <td>
+                    <?=$order->address?>
+                </td>
+            </tr>
+        <?}?>
+        <?if($order->delivery_type == 2) {?>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    Доставка Новой почтой
+                </td>
+            </tr>
+            <tr>
+                <td class="label">
+                    Адрес отделения
+                </td>
+                <td>
+                    <?=$order->newposht_address?>
+                </td>
+            </tr>
+        <?}?>
     </table>
     
 <?}

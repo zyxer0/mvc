@@ -13,6 +13,7 @@ class Controller_User extends Controller
     {
         if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
             $this->design_var->user = $this->model->get_user_info();
+            $this->design_var->orders = $this->model->get_orders();
             
             $this->design_var->meta_title = 'Личный кабинет пользователя ' . $this->design_var->user->name;
             $this->design_var->meta_description = 'Личный кабинет пользователя ' . $this->design_var->user->name;

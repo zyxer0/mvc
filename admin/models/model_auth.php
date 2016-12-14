@@ -2,8 +2,6 @@
 
 class Model_Auth extends Model
 {
-    
-    protected $query;
     protected $username;
     protected $pass;
     

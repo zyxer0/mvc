@@ -11,7 +11,7 @@ class Controller_Cart extends Controller
         $cart = $this->model->get_cart();
         
         if(!empty($cart->goods)) {
-            
+            $main_images_ids = [];
             foreach($cart->goods as $good) {
                 if($good->main_image_id) {
                     $main_images_ids[] = $good->main_image_id;
@@ -23,8 +23,10 @@ class Controller_Cart extends Controller
                 $cart->goods[$image->good_id]->images[] = $image;
             }
             
-            foreach($this->model->get_images(['id'=>$main_images_ids]) as $image) {
-                $main_images[$image->id] = $image;
+            if(!empty($main_images_ids)) {
+                foreach($this->model->get_images(['id'=>$main_images_ids]) as $image) {
+                    $main_images[$image->id] = $image;
+                }
             }
             
             foreach($cart->goods as $good) {

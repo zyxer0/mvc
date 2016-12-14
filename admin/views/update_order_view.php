@@ -30,6 +30,9 @@
             <h2>Данные клиента <a href="#" class="edit_user_info" title="Редактировать"><img src="/admin/static/images/edit.png"/></a></h2>
             <ul class="properties user_info">
                 <li>
+                    <label for="paid">Заказ оплачен</label> <input value="1" type="checkbox" class="" <?=(to do)?> name="paid" id="paid" />
+                </li>
+                <li>
                     <label for="name">Имя</label>
                     <span class="view_block"><?=$order->name?></span>
                     <span class="edit_block">
@@ -64,20 +67,49 @@
                         <input value="<?=$order->phone?>" type="text" class="text_input" name="phone" id="phone" />
                     </span>
                 </li>
+                <li><h2>Доставка</h2></li>
                 <li>
-                    <label for="country">Страна</label>
-                    <span class="view_block"><?=$order->country?></span>
-                    <span class="edit_block">
-                        <input value="<?=$order->country?>" type="text" class="text_input" name="country" id="country" />
-                    </span>
+                    <h3>
+                        <?if($order->delivery_type == 1) {?>
+                        Курьерская доставка
+                        <?}?>
+                        <?if($order->delivery_type == 2) {?>
+                        Доставка Новой почтой
+                        <?}?>
+                    </h3>
                 </li>
-                <li>
-                    <label for="city">Город</label>
-                    <span class="view_block"><?=$order->city?></span>
-                    <span class="edit_block">
-                        <input value="<?=$order->city?>" type="text" class="text_input" name="city" id="city" />
-                    </span>
-                </li>
+                <?if($order->delivery_type == 1) {?>
+                    <li>
+                        <label for="country">Страна</label>
+                        <span class="view_block"><?=$order->country?></span>
+                        <span class="edit_block">
+                            <input value="<?=$order->country?>" type="text" class="text_input" name="country" id="country" />
+                        </span>
+                    </li>
+                    <li>
+                        <label for="city">Город</label>
+                        <span class="view_block"><?=$order->city?></span>
+                        <span class="edit_block">
+                            <input value="<?=$order->city?>" type="text" class="text_input" name="city" id="city" />
+                        </span>
+                    </li>
+                    <li>
+                        <label for="address">Адрес</label>
+                        <span class="view_block"><?=$order->address?></span>
+                        <span class="edit_block">
+                            <input value="<?=$order->address?>" type="text" class="text_input" name="address" id="address" />
+                        </span>
+                    </li>
+                <?}?>
+                <?if($order->delivery_type == 2) {?>
+                    <li>
+                        <label for="newposht_address">Адрес отделения</label>
+                        <span class="view_block"><?=$order->newposht_address?></span>
+                        <span class="edit_block">
+                            <input value="<?=$order->newposht_address?>" type="text" class="text_input" name="newposht_address" id="newposht_address" />
+                        </span>
+                    </li>
+                <?}?>
             </ul>
             <hr />
         </div>

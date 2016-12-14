@@ -11,11 +11,10 @@
     <div class="tiny_products">
         <?
         if(!empty($goods)){
-            $width = 'percent_20';
             foreach ($goods as $good) {
                 if($good['sticker_class'] == 'topSales'){
                     ?>
-                    <div class="product <? isset($width) ? print $width : ''?>">
+                    <div class="product percent_20">
                         <div class="inner">
                             <div class="image">
                                 <?if($good['image']){?>

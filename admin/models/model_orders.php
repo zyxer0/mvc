@@ -1,9 +1,6 @@
 <?php
 
-class Model_Orders extends Model
-{
-    
-    protected $query;
+class Model_Orders extends Model {
     
     public function __construct() {
         parent::__construct();
@@ -126,6 +123,10 @@ class Model_Orders extends Model
         $order->phone        = trim(htmlspecialchars(strip_tags($_POST['phone'])));
         $order->country      = trim(htmlspecialchars(strip_tags($_POST['country'])));
         $order->city         = trim(htmlspecialchars(strip_tags($_POST['city'])));
+        $order->address      = trim(htmlspecialchars(strip_tags($_POST['address'])));
+        $order->newposht_address = trim(htmlspecialchars(strip_tags($_POST['newposht_address'])));
+        $order->newposht_address = trim(htmlspecialchars(strip_tags($_POST['newposht_address'])));
+        //to do
         
         if(!Validation::check_text($order->name)){
             return false;
@@ -148,6 +149,12 @@ class Model_Orders extends Model
         if(!Validation::check_text($order->city)){
             return false;
         }
+        if(!Validation::check_text($order->address)){
+            return false;
+        }
+        if(!Validation::check_text($order->newposht_address)){
+            return false;
+        }
         
         
         $this->query = "UPDATE
@@ -168,17 +175,7 @@ class Model_Orders extends Model
         if(!$this->db->make_query($this->query)){
             return false;
         }
-        /* 
-        $this->query = "UPDATE
-                    router 
-                    SET
-                    `alias`='" . $good->url . "'
-                    WHERE `route`='goods/view?id=" . $id . "' LIMIT 1
-                ";
         
-        $this->db->make_query($this->query);
-        
-         */
         return $id;
     }
 }
